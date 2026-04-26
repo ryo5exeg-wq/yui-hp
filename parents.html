@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>保護者専用ページ｜結い</title>
+<link href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #3a7d6e;
+    --primary-light: #5aab97;
+    --primary-pale: #e8f4f1;
+    --bg: #f7f9f8;
+    --bg2: #eef2f0;
+    --text: #1e2d2a;
+    --text-muted: #6b7b78;
+    --white: #ffffff;
+    --border: rgba(58,125,110,0.12);
+    --radius: 18px;
+    --shadow: 0 4px 24px rgba(58,125,110,0.08);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'Noto Sans JP',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+
+  /* ── NAV ── */
+  nav {
+    position:fixed; inset:0 0 auto 0; z-index:200; height:64px;
+    background:rgba(247,249,248,0.94); backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--border);
+    display:flex; align-items:center; justify-content:space-between; padding:0 48px;
+  }
+  .nav-logo {
+    font-family:'BIZ UDPGothic',sans-serif; font-size:1.35rem; font-weight:700;
+    color:var(--primary); display:flex; align-items:center; gap:10px; text-decoration:none;
+  }
+  .nav-logo-icon { width:34px; height:34px; display:flex; align-items:center; justify-content:center; }
+  .nav-back {
+    font-size:0.83rem; color:var(--text-muted); text-decoration:none;
+    display:flex; align-items:center; gap:6px; transition:color 0.2s;
+  }
+  .nav-back:hover { color:var(--primary); }
+
+  /* ── LOGIN SCREEN ── */
+  #login-screen {
+    min-height:100vh; display:flex; align-items:center; justify-content:center;
+    padding:80px 24px;
+  }
+  .login-card {
+    background:var(--white); border-radius:var(--radius);
+    box-shadow:var(--shadow); padding:48px 44px; width:100%; max-width:400px;
+    text-align:center; border:1px solid var(--border);
+    position:relative; overflow:hidden;
+  }
+  .login-card::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:4px;
+    background:linear-gradient(90deg,var(--primary),var(--primary-light));
+  }
+  .login-icon { font-size:2.4rem; margin-bottom:16px; }
+  .login-title {
+    font-family:'BIZ UDPGothic',sans-serif; font-size:1.4rem; font-weight:700;
+    margin-bottom:6px; color:var(--text);
+  }
+  .login-desc { font-size:0.85rem; color:var(--text-muted); margin-bottom:32px; line-height:1.7; }
+  .login-label { display:block; text-align:left; font-size:0.8rem; font-weight:700; color:var(--text-muted); margin-bottom:8px; letter-spacing:0.05em; }
+  .login-input {
+    width:100%; padding:13px 16px; border:1.5px solid var(--border);
+    border-radius:10px; font-family:'Noto Sans JP',sans-serif; font-size:1rem;
+    background:var(--bg); color:var(--text); transition:border-color 0.2s;
+    margin-bottom:8px;
+  }
+  .login-input:focus { outline:none; border-color:var(--primary); }
+  .login-input.error { border-color:#e07b8a; }
+  .login-error { font-size:0.8rem; color:#c0556a; margin-bottom:16px; min-height:18px; text-align:left; }
+  .login-btn {
+    width:100%; padding:14px; background:var(--primary); color:var(--white);
+    border:none; border-radius:40px; font-family:'Noto Sans JP',sans-serif;
+    font-size:0.95rem; font-weight:700; cursor:pointer; transition:all 0.22s;
+    letter-spacing:0.05em; margin-top:8px;
+  }
+  .login-btn:hover { background:var(--primary-light); transform:translateY(-1px); }
+  .login-note { font-size:0.76rem; color:var(--text-muted); margin-top:20px; line-height:1.7; }
+
+  /* ── MAIN CONTENT ── */
+  #main-content { display:none; padding-top:64px; }
+
+  .page-header {
+    background:var(--white); border-bottom:1px solid var(--border);
+    padding:40px 48px 32px;
+  }
+  .page-header-inner { max-width:1100px; margin:0 auto; }
+  .page-header-label { font-size:0.72rem; font-weight:700; letter-spacing:0.15em; color:var(--primary); text-transform:uppercase; margin-bottom:8px; }
+  .page-header-title { font-family:'BIZ UDPGothic',sans-serif; font-size:1.8rem; font-weight:700; margin-bottom:6px; }
+  .page-header-desc { font-size:0.88rem; color:var(--text-muted); }
+
+  /* ── LOGOUT ── */
+  .logout-btn {
+    font-size:0.78rem; color:var(--text-muted); background:none; border:1px solid var(--border);
+    padding:5px 14px; border-radius:20px; cursor:pointer; font-family:'Noto Sans JP',sans-serif;
+    transition:all 0.2s;
+  }
+  .logout-btn:hover { color:var(--text); border-color:var(--text-muted); }
+
+  /* ── ALBUM SECTION ── */
+  .albums { max-width:1100px; margin:0 auto; padding:48px; }
+
+  .album-tabs {
+    display:flex; gap:8px; flex-wrap:wrap; margin-bottom:36px;
+  }
+  .album-tab {
+    padding:9px 20px; border-radius:40px; border:1.5px solid var(--border);
+    background:var(--white); cursor:pointer; font-family:'Noto Sans JP',sans-serif;
+    font-size:0.83rem; font-weight:700; color:var(--text-muted); transition:all 0.2s;
+    box-shadow:var(--shadow);
+  }
+  .album-tab:hover { color:var(--text); }
+  .album-tab.active { background:var(--primary); color:var(--white); border-color:var(--primary); }
+
+  .album-pane { display:none; }
+  .album-pane.active { display:block; }
+
+  .album-group { margin-bottom:48px; }
+  .album-group-title {
+    font-family:'BIZ UDPGothic',sans-serif; font-size:1.05rem; font-weight:700;
+    margin-bottom:16px; display:flex; align-items:center; gap:10px;
+  }
+  .album-group-title::before {
+    content:''; width:4px; height:18px; border-radius:2px; background:var(--primary);
+  }
+
+  /* Photo grid */
+  .photo-grid {
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(220px,1fr)); gap:14px;
+  }
+  .photo-item {
+    border-radius:12px; overflow:hidden; background:var(--bg2);
+    aspect-ratio:4/3; position:relative; cursor:pointer;
+    transition:transform 0.22s, box-shadow 0.22s;
+    box-shadow:var(--shadow);
+  }
+  .photo-item:hover { transform:scale(1.02); box-shadow:0 8px 32px rgba(58,125,110,0.15); }
+  .photo-item img { width:100%; height:100%; object-fit:cover; display:block; }
+
+  /* Placeholder (before real photos are uploaded) */
+  .photo-placeholder {
+    width:100%; height:100%; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:10px;
+    color:var(--text-muted); font-size:0.78rem;
+  }
+  .photo-placeholder-icon { font-size:2rem; opacity:0.4; }
+
+  /* Upload area */
+  .upload-area {
+    border:2px dashed rgba(58,125,110,0.25); border-radius:14px;
+    padding:32px; text-align:center; margin-bottom:32px;
+    background:rgba(58,125,110,0.03); transition:all 0.2s; cursor:pointer;
+  }
+  .upload-area:hover { border-color:var(--primary); background:var(--primary-pale); }
+  .upload-icon { font-size:2rem; margin-bottom:10px; opacity:0.6; }
+  .upload-text { font-size:0.85rem; color:var(--text-muted); line-height:1.7; }
+  .upload-text strong { color:var(--primary); }
+
+  /* ── LIGHTBOX ── */
+  #lightbox {
+    display:none; position:fixed; inset:0; z-index:500;
+    background:rgba(0,0,0,0.88); align-items:center; justify-content:center;
+    padding:24px;
+  }
+  #lightbox.open { display:flex; }
+  #lightbox img { max-width:90vw; max-height:88vh; border-radius:8px; object-fit:contain; }
+  .lightbox-close {
+    position:absolute; top:20px; right:24px; color:rgba(255,255,255,0.8);
+    font-size:2rem; cursor:pointer; background:none; border:none; line-height:1;
+    transition:color 0.2s;
+  }
+  .lightbox-close:hover { color:white; }
+
+  /* ── EMPTY STATE ── */
+  .empty-state { text-align:center; padding:60px 24px; color:var(--text-muted); }
+  .empty-state-icon { font-size:2.5rem; margin-bottom:14px; opacity:0.4; }
+  .empty-state p { font-size:0.88rem; line-height:1.8; }
+
+  @media (max-width:768px) {
+    nav { padding:0 20px; }
+    .page-header { padding:32px 24px 24px; }
+    .albums { padding:32px 24px; }
+    .photo-grid { grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-icon">
+      <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g opacity="0.95">
+          <ellipse cx="17" cy="9" rx="4.5" ry="7.5" fill="white" stroke="#c8dfd9" stroke-width="0.6" transform="rotate(0 17 17)"/>
+          <ellipse cx="17" cy="9" rx="4.5" ry="7.5" fill="white" stroke="#c8dfd9" stroke-width="0.6" transform="rotate(72 17 17)"/>
+          <ellipse cx="17" cy="9" rx="4.5" ry="7.5" fill="white" stroke="#c8dfd9" stroke-width="0.6" transform="rotate(144 17 17)"/>
+          <ellipse cx="17" cy="9" rx="4.5" ry="7.5" fill="white" stroke="#c8dfd9" stroke-width="0.6" transform="rotate(216 17 17)"/>
+          <ellipse cx="17" cy="9" rx="4.5" ry="7.5" fill="white" stroke="#c8dfd9" stroke-width="0.6" transform="rotate(288 17 17)"/>
+        </g>
+        <circle cx="17" cy="17" r="4.5" fill="#5aab97"/>
+      </svg>
+    </div>
+    結い
+  </a>
+  <div style="display:flex;align-items:center;gap:16px;">
+    <a href="index.html" class="nav-back">← サイトトップへ</a>
+    <button class="logout-btn" id="logout-btn" style="display:none;" onclick="logout()">ログアウト</button>
+  </div>
+</nav>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-icon">🔒</div>
+    <div class="login-title">保護者専用ページ</div>
+    <p class="login-desc">このページは保護者の方のみご覧いただけます。<br>パスワードを入力してください。</p>
+    <label class="login-label">パスワード</label>
+    <input type="password" class="login-input" id="pw-input" placeholder="パスワードを入力"
+      onkeydown="if(event.key==='Enter')tryLogin()">
+    <div class="login-error" id="login-error"></div>
+    <button class="login-btn" onclick="tryLogin()">ログイン</button>
+    <p class="login-note">パスワードがわからない場合は、<br>各事業所までお問い合わせください。</p>
+  </div>
+</div>
+
+<!-- MAIN CONTENT (shown after login) -->
+<div id="main-content">
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;">
+        <div>
+          <div class="page-header-label">PARENTS ONLY</div>
+          <div class="page-header-title">活動の様子</div>
+          <div class="page-header-desc">日頃の活動の写真をご覧いただけます。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="albums">
+    <!-- 事業所タブ -->
+    <div class="album-tabs">
+      <button class="album-tab active" data-album="a">放課後等デイサービス結い</button>
+      <button class="album-tab" data-album="b">児童発達支援結い</button>
+      <button class="album-tab" data-album="c">児童発達支援結いふえふき</button>
+    </div>
+
+    <!-- 放課後デイ -->
+    <div class="album-pane active" id="album-a">
+      <div class="upload-area" onclick="alert('実際の運用では、ここから写真をアップロードできます。\nサーバー設置後に機能が有効になります。')">
+        <div class="upload-icon">📷</div>
+        <p class="upload-text"><strong>写真を追加</strong><br>クリックして写真を選択、またはドラッグ＆ドロップ</p>
+      </div>
+      <div class="album-group">
+        <div class="album-group-title">2024年12月の活動</div>
+        <div class="photo-grid" id="grid-a-dec">
+          <!-- サンプルプレースホルダー -->
+          <div class="photo-item"><div class="photo-placeholder"><div class="photo-placeholder-icon">🖼️</div><span>写真1</span></div></div>
+          <div class="photo-item"><div class="photo-placeholder"><div class="photo-placeholder-icon">🖼️</div><span>写真2</span></div></div>
+          <div class="photo-item"><div class="photo-placeholder"><div class="photo-placeholder-icon">🖼️</div><span>写真3</span></div></div>
+          <div class="photo-item"><div class="photo-placeholder"><div class="photo-placeholder-icon">🖼️</div><span>写真4</span></div></div>
+        </div>
+      </div>
+      <div class="album-group">
+        <div class="album-group-title">2024年11月の活動</div>
+        <div class="photo-grid">
+          <div class="photo-item"><div class="photo-placeholder"><div class="photo-placeholder-icon">🖼️</div><span>写真1</span></div></div>
+          <div class="photo-item"><div class="photo-placeholder"><div class="photo-placeholder-icon">🖼️</div><span>写真2</span></div></div>
+          <div class="photo-item"><div class="photo-placeholder"><div class="photo-placeholder-icon">🖼️</div><span>写真3</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 児童発達支援結い -->
+    <div class="album-pane" id="album-b">
+      <div class="upload-area" onclick="alert('実際の運用では、ここから写真をアップロードできます。\nサーバー設置後に機能が有効になります。')">
+        <div class="upload-icon">📷</div>
+        <p class="upload-text"><strong>写真を追加</strong><br>クリックして写真を選択、またはドラッグ＆ドロップ</p>
+      </div>
+      <div class="empty-state">
+        <div class="empty-state-icon">📂</div>
+        <p>まだ写真がありません。<br>写真を追加してください。</p>
+      </div>
+    </div>
+
+    <!-- 児童発達支援結いふえふき -->
+    <div class="album-pane" id="album-c">
+      <div class="upload-area" onclick="alert('実際の運用では、ここから写真をアップロードできます。\nサーバー設置後に機能が有効になります。')">
+        <div class="upload-icon">📷</div>
+        <p class="upload-text"><strong>写真を追加</strong><br>クリックして写真を選択、またはドラッグ＆ドロップ</p>
+      </div>
+      <div class="empty-state">
+        <div class="empty-state-icon">📂</div>
+        <p>まだ写真がありません。<br>写真を追加してください。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<script>
+// ── パスワード設定（ここを変更してください）
+var PASSWORD = 'yui2024';
+
+// ── ログイン処理
+function tryLogin() {
+  var input = document.getElementById('pw-input');
+  var error = document.getElementById('login-error');
+  if (input.value === PASSWORD) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('main-content').style.display = 'block';
+    document.getElementById('logout-btn').style.display = 'block';
+    sessionStorage.setItem('yui_auth', '1');
+    error.textContent = '';
+    input.classList.remove('error');
+  } else {
+    error.textContent = 'パスワードが正しくありません。';
+    input.classList.add('error');
+    input.value = '';
+    input.focus();
+  }
+}
+
+// ── ログアウト
+function logout() {
+  sessionStorage.removeItem('yui_auth');
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('main-content').style.display = 'none';
+  document.getElementById('logout-btn').style.display = 'none';
+  document.getElementById('pw-input').value = '';
+}
+
+// ── セッション維持（同タブ内でリロードしても維持）
+if (sessionStorage.getItem('yui_auth') === '1') {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('main-content').style.display = 'block';
+  document.getElementById('logout-btn').style.display = 'block';
+}
+
+// ── アルバムタブ切り替え
+document.querySelectorAll('.album-tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('.album-tab').forEach(function(t) { t.classList.remove('active'); });
+    document.querySelectorAll('.album-pane').forEach(function(p) { p.classList.remove('active'); });
+    this.classList.add('active');
+    document.getElementById('album-' + this.dataset.album).classList.add('active');
+  });
+});
+
+// ── 写真クリックでライトボックス
+document.querySelectorAll('.photo-item img').forEach(function(img) {
+  img.addEventListener('click', function(e) {
+    e.stopPropagation();
+    document.getElementById('lightbox-img').src = this.src;
+    document.getElementById('lightbox').classList.add('open');
+  });
+});
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLightbox();
+});
+</script>
+</body>
+</html>
+                
