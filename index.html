@@ -381,7 +381,20 @@
     .form-row { grid-template-columns:1fr !important; }
     .footer-grid { grid-template-columns:1fr; }
   }
-</style>
+
+  /* 受け入れ状況 */
+  .capacity-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin-bottom:16px; }
+  .cap-item { background:#fff; border:1.5px solid var(--border); border-radius:14px; padding:14px 8px; text-align:center; box-shadow:0 2px 8px rgba(58,125,110,0.06); }
+  .cap-day { font-size:0.85rem; color:var(--text-muted); margin-bottom:6px; font-weight:600; }
+  .cap-mark { font-size:1.6rem; font-weight:700; line-height:1; }
+  .cap-o { color:#3a7d6e; }
+  .cap-t { color:#e07b8a; }
+  .cap-x { color:#c44; }
+  .capacity-legend { display:flex; flex-wrap:wrap; gap:14px; padding:12px; background:#f7f9f8; border-radius:12px; font-size:0.85rem; color:var(--text-muted); }
+  .legend-item { display:flex; align-items:center; gap:6px; }
+  .legend-mark { font-size:1.1rem; font-weight:700; }
+
+  </style>
 <body>
 
 <!-- NAV -->
@@ -454,13 +467,13 @@
           <div>
             <div class="office-type-badges"><span class="type-badge">放課後等デイサービス</span></div>
             <div class="office-name">放課後等デイサービス結い</div>
-            <p class="office-desc">対象：小学生〜高校生（6歳〜18歳）<br>学校の放課後および長期休暇中に利用できる療育支援サービスです。</p>
+            <p class="office-desc">対象：小学生〜高校生（6歳〜18歳）<br>学校の放課後および学校休業日に利用できる療育支援サービスです。</p>
           </div>
           <div class="office-meta">
             <div class="meta-row"><div class="meta-icon">📍</div><div><div class="meta-label">所在地</div><div class="meta-value">山梨県甲府市住吉5丁目3-27</div></div></div>
             <div class="meta-row"><div class="meta-icon">📞</div><div><div class="meta-label">電話番号</div><div class="meta-value">070-9047-7573</div></div></div>
-            <div class="meta-row"><div class="meta-icon">🕐</div><div><div class="meta-label">開所時間</div><div class="meta-value">平日 11:00〜17:30 ／ 長期休暇中 10:00〜17:00</div></div></div>
-            <div class="meta-row"><div class="meta-icon">🚌</div><div><div class="meta-label">送迎時間</div><div class="meta-value">平日　17:30〜18:00<br>長期休暇中　9:30〜10:00 ／ 17:00〜17:30</div></div></div>
+            <div class="meta-row"><div class="meta-icon">🕐</div><div><div class="meta-label">開所時間</div><div class="meta-value">平日　11:00〜17:30<br>学校休業日　10:00〜17:00<span style="display:block;font-size:0.78em;color:var(--text-muted);margin-top:2px;">（夏休み、創立記念日など）</span></div></div></div>
+            <div class="meta-row"><div class="meta-icon">🚌</div><div><div class="meta-label">送迎時間</div><div class="meta-value">平日　17:30〜18:00<br>学校休業日　9:30〜10:00 ／ 17:00〜17:30</div></div></div>
             <div class="meta-row"><div class="meta-icon">📅</div><div><div class="meta-label">定休日</div><div class="meta-value">土・日・祝日・お盆・年末年始</div></div></div>
           </div>
         </div>
@@ -469,6 +482,23 @@
           <div class="stat-item"><div class="stat-num">放課後デイ</div><div class="stat-label">サービス種別</div></div>
           <div class="stat-item"><div class="stat-num">甲府市</div><div class="stat-label">住吉エリア</div></div>
           <div class="stat-item"><div class="stat-num">送迎あり</div><div class="stat-label">要相談</div></div>
+        </div>
+      </div>
+
+      <div class="sub-section">
+        <h3 class="sub-title">受け入れ状況</h3>
+        <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:14px;margin-top:-8px;">月〜金の受け入れ可能人数の目安です。</p>
+        <div class="capacity-grid">
+          <div class="cap-item"><div class="cap-day">月</div><div class="cap-mark cap-x">×</div></div>
+          <div class="cap-item"><div class="cap-day">火</div><div class="cap-mark cap-x">×</div></div>
+          <div class="cap-item"><div class="cap-day">水</div><div class="cap-mark cap-x">×</div></div>
+          <div class="cap-item"><div class="cap-day">木</div><div class="cap-mark cap-x">×</div></div>
+          <div class="cap-item"><div class="cap-day">金</div><div class="cap-mark cap-x">×</div></div>
+        </div>
+        <div class="capacity-legend">
+          <div class="legend-item"><span class="legend-mark cap-o">○</span><span>6〜10人</span></div>
+          <div class="legend-item"><span class="legend-mark cap-t">△</span><span>1〜5人</span></div>
+          <div class="legend-item"><span class="legend-mark cap-x">×</span><span>0人</span></div>
         </div>
       </div>
 
