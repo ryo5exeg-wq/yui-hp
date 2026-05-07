@@ -383,8 +383,8 @@
   }
 
   /* 受け入れ状況 */
-  .capacity-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin-bottom:16px; }
-  .cap-item { background:#fff; border:1.5px solid var(--border); border-radius:14px; padding:14px 8px; text-align:center; box-shadow:0 2px 8px rgba(58,125,110,0.06); }
+  .capacity-grid { display:flex; gap:10px; margin-bottom:16px; }
+  .cap-item { flex:1; min-width:0; background:#fff; border:1.5px solid var(--border); border-radius:14px; padding:14px 8px; text-align:center; box-shadow:0 2px 8px rgba(58,125,110,0.06); }
   .cap-day { font-size:0.85rem; color:var(--text-muted); margin-bottom:6px; font-weight:600; }
   .cap-mark { font-size:1.6rem; font-weight:700; line-height:1; }
   .cap-o { color:#3a7d6e; }
@@ -393,6 +393,26 @@
   .capacity-legend { display:flex; flex-wrap:wrap; gap:14px; padding:12px; background:#f7f9f8; border-radius:12px; font-size:0.85rem; color:var(--text-muted); }
   .legend-item { display:flex; align-items:center; gap:6px; }
   .legend-mark { font-size:1.1rem; font-weight:700; }
+
+  
+  /* セクション区切り（ウェーブ） */
+  .section-divider { line-height:0; background:var(--bg); }
+  .section-divider svg { display:block; width:100%; height:72px; }
+
+  /* 共通FAQセクション */
+  .faq-section { background:var(--primary-pale); padding:64px 48px 80px; position:relative; }
+  .faq-inner { max-width:920px; margin:0 auto; }
+  .faq-title { font-family:'BIZ UDPGothic',sans-serif; font-size:clamp(1.5rem,3vw,2rem); color:var(--text); text-align:center; margin-bottom:36px; }
+  .faq-cat-title { font-size:1.05rem; color:var(--primary); margin:28px 0 14px; padding:4px 0 4px 12px; border-left:4px solid var(--primary); line-height:1.3; }
+  .faq-shared > .faq-cat-title:first-of-type { margin-top:0; }
+  .faq-shared .faq-icon { background:var(--primary); }
+  .faq-shared .faq-item:hover { border-color:rgba(58,125,110,0.2); }
+  @media (max-width:780px) {
+    .section-divider svg { height:48px; }
+    .faq-section { padding:48px 18px 56px; }
+    .faq-title { margin-bottom:24px; }
+    .faq-cat-title { font-size:0.95rem; }
+  }
 
   </style>
 <body>
@@ -523,15 +543,6 @@
         </div>
       </div>
 
-      <div class="sub-section">
-        <h3 class="sub-title">よくある質問</h3>
-        <div class="faq-list">
-          <div class="faq-item"><div class="faq-q">利用するには何が必要ですか？<div class="faq-icon">＋</div></div><div class="faq-a">受給者証が必要です。お住まいの市区町村の窓口または相談支援事業所にご相談ください。</div></div>
-          <div class="faq-item"><div class="faq-q">見学・体験はできますか？<div class="faq-icon">＋</div></div><div class="faq-a">随時受け付けています。お電話またはメールにてご連絡ください。</div></div>
-          <div class="faq-item"><div class="faq-q">送迎はありますか？<div class="faq-icon">＋</div></div><div class="faq-a">はい、あります。ただし、送迎範囲は事業所から片道15分程度としています。</div></div>
-          <div class="faq-item"><div class="faq-q">障害者手帳がなくても利用できますか？<div class="faq-icon">＋</div></div><div class="faq-a">受給者証があればご利用いただけます。詳細はお問い合わせください。</div></div>
-        </div>
-      </div>
 
       <div class="sub-section">
         <h3 class="sub-title">料金</h3>
@@ -577,6 +588,24 @@
       </div>
 
       <div class="sub-section">
+        <h3 class="sub-title">受け入れ状況</h3>
+        <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:14px;margin-top:-8px;">月〜土の受け入れ可能人数の目安です。</p>
+        <div class="capacity-grid">
+          <div class="cap-item"><div class="cap-day">月</div><div class="cap-mark cap-o">○</div></div>
+          <div class="cap-item"><div class="cap-day">火</div><div class="cap-mark cap-o">○</div></div>
+          <div class="cap-item"><div class="cap-day">水</div><div class="cap-mark cap-t">△</div></div>
+          <div class="cap-item"><div class="cap-day">木</div><div class="cap-mark cap-o">○</div></div>
+          <div class="cap-item"><div class="cap-day">金</div><div class="cap-mark cap-o">○</div></div>
+          <div class="cap-item"><div class="cap-day">土</div><div class="cap-mark cap-o">○</div></div>
+        </div>
+        <div class="capacity-legend">
+          <div class="legend-item"><span class="legend-mark cap-o">○</span><span>6〜10人</span></div>
+          <div class="legend-item"><span class="legend-mark cap-t">△</span><span>1〜5人</span></div>
+          <div class="legend-item"><span class="legend-mark cap-x">×</span><span>0人</span></div>
+        </div>
+      </div>
+
+      <div class="sub-section">
         <h3 class="sub-title">1日の流れ</h3>
         <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:14px;margin-top:-8px;">（平日の一例）</p>
         <div class="timeline-strip">
@@ -600,15 +629,6 @@
         </div>
       </div>
 
-      <div class="sub-section">
-        <h3 class="sub-title">よくある質問</h3>
-        <div class="faq-list">
-          <div class="faq-item"><div class="faq-q">利用するには何が必要ですか？<div class="faq-icon">＋</div></div><div class="faq-a">受給者証が必要です。お住まいの市区町村の窓口または相談支援事業所にご相談ください。</div></div>
-          <div class="faq-item"><div class="faq-q">何歳から利用できますか？<div class="faq-icon">＋</div></div><div class="faq-a">0歳から就学前（6歳）のお子さまが対象です。</div></div>
-          <div class="faq-item"><div class="faq-q">送迎はありますか？<div class="faq-icon">＋</div></div><div class="faq-a">はい、あります。ただし、送迎範囲は事業所から片道15分程度としています。</div></div>
-          <div class="faq-item"><div class="faq-q">診断がなくても利用できますか？<div class="faq-icon">＋</div></div><div class="faq-a">診断名がなくても、受給者証があればご利用いただけます。詳細はお問い合わせください。</div></div>
-        </div>
-      </div>
 
       <div class="sub-section">
         <h3 class="sub-title">料金</h3>
@@ -655,6 +675,24 @@
       </div>
 
       <div class="sub-section">
+        <h3 class="sub-title">受け入れ状況</h3>
+        <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:14px;margin-top:-8px;">月〜土の受け入れ可能人数の目安です。</p>
+        <div class="capacity-grid">
+          <div class="cap-item"><div class="cap-day">月</div><div class="cap-mark cap-t">△</div></div>
+          <div class="cap-item"><div class="cap-day">火</div><div class="cap-mark cap-t">△</div></div>
+          <div class="cap-item"><div class="cap-day">水</div><div class="cap-mark cap-t">△</div></div>
+          <div class="cap-item"><div class="cap-day">木</div><div class="cap-mark cap-o">○</div></div>
+          <div class="cap-item"><div class="cap-day">金</div><div class="cap-mark cap-o">○</div></div>
+          <div class="cap-item"><div class="cap-day">土</div><div class="cap-mark cap-o">○</div></div>
+        </div>
+        <div class="capacity-legend">
+          <div class="legend-item"><span class="legend-mark cap-o">○</span><span>6〜10人</span></div>
+          <div class="legend-item"><span class="legend-mark cap-t">△</span><span>1〜5人</span></div>
+          <div class="legend-item"><span class="legend-mark cap-x">×</span><span>0人</span></div>
+        </div>
+      </div>
+
+      <div class="sub-section">
         <h3 class="sub-title">1日の流れ</h3>
         <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:14px;margin-top:-8px;">（平日の一例）</p>
         <div class="timeline-strip">
@@ -678,15 +716,6 @@
         </div>
       </div>
 
-      <div class="sub-section">
-        <h3 class="sub-title">よくある質問</h3>
-        <div class="faq-list">
-          <div class="faq-item"><div class="faq-q">利用するには何が必要ですか？<div class="faq-icon">＋</div></div><div class="faq-a">受給者証が必要です。お住まいの市区町村の窓口または相談支援事業所にご相談ください。</div></div>
-          <div class="faq-item"><div class="faq-q">何歳から利用できますか？<div class="faq-icon">＋</div></div><div class="faq-a">0歳から就学前（6歳）のお子さまが対象です。</div></div>
-          <div class="faq-item"><div class="faq-q">笛吹市以外からも通えますか？<div class="faq-icon">＋</div></div><div class="faq-a">近隣市町村からもご利用いただけます。送迎ははい、あります。ただし、送迎範囲は事業所から片道15分程度としています。</div></div>
-          <div class="faq-item"><div class="faq-q">診断がなくても利用できますか？<div class="faq-icon">＋</div></div><div class="faq-a">診断名がなくても、受給者証があればご利用いただけます。詳細はお問い合わせください。</div></div>
-        </div>
-      </div>
 
       <div class="sub-section">
         <h3 class="sub-title">料金</h3>
@@ -707,6 +736,35 @@
       </div>
     </div><!-- /pane-c -->
 
+  </div>
+</section>
+
+<!-- セクション区切り（タブ→FAQ） -->
+<div class="section-divider" aria-hidden="true">
+  <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0,30 Q360,80 720,40 T1440,30 L1440,80 L0,80 Z" fill="#e8f4f1"/>
+  </svg>
+</div>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+  <div class="faq-inner">
+    <h2 class="faq-title">よくある質問</h2>
+    <div class="faq-shared">
+
+      <h3 class="faq-cat-title">1. 利用手続きについて</h3>
+      <div class="faq-list">
+        <div class="faq-item"><div class="faq-q">療育を検討し始めたばかりですが、まず何が必要ですか？<div class="faq-icon">＋</div></div><div class="faq-a">未就学のお子様（児童発達支援）も、就学後のお子様（放課後等デイサービス）も、自治体が発行する「受給者証」が必要です。障害者手帳がない方でも、医師の診断書等により自治体から必要性が認められれば、受給者証の発行・利用が可能です。</div></div>
+        <div class="faq-item"><div class="faq-q">相談員（ワーカーさん）の探し方や、手続きの進め方がわかりません。<div class="faq-icon">＋</div></div><div class="faq-a">まずはお住まいの市区町村の障害福祉窓口や、地域の相談支援事業所へご相談ください。手続きは少し複雑に感じられるかもしれませんが、当施設で見学・体験をされる際に、具体的な申請手順などを詳しくアドバイスさせていただきます。</div></div>
+      </div>
+
+      <h3 class="faq-cat-title">2. 結いでの支援・サービスについて</h3>
+      <div class="faq-list">
+        <div class="faq-item"><div class="faq-q">見学や体験はできますか？<div class="faq-icon">＋</div></div><div class="faq-a">はい、随時受け付けております。実際にお子様が楽しんで通えるか、雰囲気を肌で感じていただくことが大切です。まずはお電話かメールでお気軽にご連絡ください。</div></div>
+        <div class="faq-item"><div class="faq-q">送迎サービスはありますか？<div class="faq-icon">＋</div></div><div class="faq-a">はい、ございます。原則として事業所から片道15分程度を対象範囲としています。</div></div>
+      </div>
+
+    </div>
   </div>
 </section>
 
